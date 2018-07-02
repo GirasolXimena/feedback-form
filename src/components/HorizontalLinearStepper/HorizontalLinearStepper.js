@@ -97,7 +97,7 @@ class HorizontalLinearStepper extends Component {
   };
 
   completedSteps() {
-  //   return Object.keys(this.props.reduxStore.stepperReducer.completed.length);
+    // return Object.keys(this.props.reduxStore.stepperReducer.completed.length);
   }
 
   isLastStep() {
@@ -151,6 +151,7 @@ class HorizontalLinearStepper extends Component {
                     >
                       Back
                     </Button>
+                    {activeStep !==4} ? (
                     <Button
                       variant="contained"
                       color="primary"
@@ -159,19 +160,16 @@ class HorizontalLinearStepper extends Component {
                     >
                       Next
                     </Button>
-                    {/* {activeStep !== steps.length && */}
-                      {/* // (this.props.reduxStore.stepperReducer.completed[this.props.reduxStore.stepperReducer.activeStep] ? (
-                      //   <Typography variant="caption" className={classes.completed}>
-                      //     Step {activeStep + 1} already completed
-                      //   </Typography>
-                      // ) : 
-                      // // (
-                      //   // <Button variant="contained" color="primary" onClick={this.handleComplete}>
-                      //   //   {this.completedSteps() === this.totalSteps() - 1 ? 'Finish' : 'Complete Step'}
-                      //   // </Button>
-                      // // )
-                      // ) */}
-                      {/* } */}
+                    ) : (
+                      <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleNext}
+                      className={classes.button}
+                    >
+                      Submit
+                    </Button>
+                    )
                   </div>
                 </div>
               )}

@@ -62,21 +62,22 @@ class CommentsButtons extends Component {
     
         return (
           <div>
+          <input onChange={handleFormChange} type="text" name="commentInput"/>
+            <br />
             <FormControlLabel
                 control = {
                     <Radio
-                        checked={this.state.selectedValue === 'flagged'}
+                        checked={this.state.selectedValue === 'true'}
                         onChange={this.handleChange}
-                        value= 'True'
+                        value= 'true'
                         color='primary'
                         name="feedback-button"
                         aria-label="flagged"
                     />
                 }
-                label = "Please contact me"
+                label = "I would like for a member of the prime support team to contact me."
             />
             <br />
-            <input onChange={handleFormChange} type="text" name="commentInput"/>
             <br />
             <br />
              <Button onClick={this.handleSubmit} color='primary'
