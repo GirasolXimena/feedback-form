@@ -14,9 +14,71 @@ const commentReducer = (state = 0) => {
     
 }
 
+const stepperReducer = (state = {         
+    activeStep: 0,
+    completed: {},
+    goToNextStep: false,
+    }, action) => {
+        let activeStep = state.activeStep
+        let completed = state.completed
+        let goToNextStep = state.goToNextStep
+        if (action.type === 'handleNext') {
+
+              return {
+              ...state,
+              activeStep: activeStep + 1,
+              goToNextStep: true
+              }
+            };        
+        
+
+        if (action.type === 'handleBack') {
+             return {
+                ...state,
+              activeStep: activeStep - 1,
+            };
+        }
+        
+
+        if(action.type === 'handleStep'){
+            return {
+                ...state,
+                activeStep: action.payload.step,
+              };
+        }
+        if (action.type === 'handleComplete') {
+            completed[activeStep] = true;
+            return {
+                ...state,
+              completed,
+              activeStep: activeStep +1,
+            };
+        }
+        if (action.type === 'handleReset') {
+            return {
+                ...state,
+                activeStep: 0,
+                completed: {},
+              };
+        }
+        if (action.type === 'resetNext') {
+            return {
+                ...state,
+                goToNextStep: false
+            }
+        }
+
+
+        return state;
+
+
+    }
+
+
 const storeInstance = createStore(
     combineReducers({
-        commentReducer
+        commentReducer,
+        stepperReducer,
     }),
     applyMiddleware(logger)
 );

@@ -5,6 +5,14 @@ import Step from '@material-ui/core/Step'
 import StepButton from '@material-ui/core/StepButton'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import { compose } from "redux";
+import { connect } from 'react-redux';
+import { Redirect } from "react-router-dom"
+
+const mapStateToProps = (reduxStore) => ({
+  reduxStore
+});
+
 
 const styles = theme => ({
     root: {
@@ -41,78 +49,73 @@ function getStepContent(step) {
         return 'Unknown step';
     }
 }
+
 class HorizontalLinearStepper extends Component {
-    state = {
-        activeStep: 0,
-        completed: {},
-      };
-    
-      totalSteps = () => {
-        return getSteps().length;
-      };
-    
-      handleNext = () => {
-        let activeStep;
-    
-        if (this.isLastStep() && !this.allStepsCompleted()) {
-          // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          const steps = getSteps();
-          activeStep = steps.findIndex((step, i) => !(i in this.state.completed));
-        } else {
-          activeStep = this.state.activeStep + 1;
-        }
-        this.setState({
-          activeStep,
-        });
-      };
-    
-      handleBack = () => {
-        const { activeStep } = this.state;
-        this.setState({
-          activeStep: activeStep - 1,
-        });
-      };
-    
-      handleStep = step => () => {
-        this.setState({
-          activeStep: step,
-        });
-      };
-    
-      handleComplete = () => {
-        const { completed } = this.state;
-        completed[this.state.activeStep] = true;
-        this.setState({
-          completed,
-        });
-        this.handleNext();
-      };
-    
-      handleReset = () => {
-        this.setState({
-          activeStep: 0,
-          completed: {},
-        });
-      };
-    
-      completedSteps() {
-        return Object.keys(this.state.completed).length;
-      }
-    
-      isLastStep() {
-        return this.state.activeStep === this.totalSteps() - 1;
-      }
-    
-      allStepsCompleted() {
-        return this.completedSteps() === this.totalSteps();
-      }
+  
+  componentDidMount() {
+      console.log(this.props.reduxStore.stepperReducer);
+      
+  }
+
+  totalSteps = () => {
+    return getSteps().length;
+  };
+
+  handleNext = () => {
+    let activeStep;
+    if (this.isLastStep() && !this.allStepsCompleted()) {
+      // It's the last step, but not all steps have been completed,
+      // find the first step that has been completed
+      const steps = getSteps();
+      activeStep = steps.findIndex((step, i) => !(i in this.props.reduxStore.stepperReducer.completed));
+    } else {
+      activeStep = this.props.reduxStore.stepperReducer.activeStep + 1;
+    }
+    const action = {type: 'handleNext', payload: activeStep}
+    this.props.dispatch(action);
+  }
+  
+  handleBack = () => {
+    const action = {type: 'handleBack'}
+    this.props.dispatch(action);
+
+  };
+
+  handleStep = step => () => {
+    const action = {type: 'handleStep', payload: step}
+    this.props.dispatch(action);
+  };
+
+  handleComplete = (step) => {
+    const action = {type: 'handleStep', payload: step}
+    this.props.dispatch(action);
+  };
+  
+  handleReset = (step) => {
+    const action = {type: 'handleReset', payload: step}
+    this.props.dispatch(action);
+
+  };
+
+  completedSteps() {
+  //   return Object.keys(this.props.reduxStore.stepperReducer.completed.length);
+  }
+
+  isLastStep() {
+    return this.props.reduxStore.stepperReducer.activeStep === this.totalSteps() - 1;
+  }
+  
+  
+  allStepsCompleted() {
+    return this.completedSteps() === this.totalSteps();
+  }
       render() {
         const { classes } = this.props;
         const steps = getSteps();
-        const { activeStep } = this.state;
-        
-          
+        const { activeStep } = this.props.reduxStore.stepperReducer
+  
+
+
     
         return (
           <div className={classes.root}>
@@ -122,7 +125,7 @@ class HorizontalLinearStepper extends Component {
                   <Step key={label}>
                     <StepButton
                       onClick={this.handleStep(index)}
-                      completed={this.state.completed[index]}
+                      completed={this.props.reduxStore.stepperReducer.completed[index]}
                     >
                       {label}
                     </StepButton>
@@ -158,7 +161,7 @@ class HorizontalLinearStepper extends Component {
                       Next
                     </Button>
                     {activeStep !== steps.length &&
-                      (this.state.completed[this.state.activeStep] ? (
+                      (this.props.reduxStore.stepperReducer.completed[this.props.reduxStore.stepperReducer.activeStep] ? (
                         <Typography variant="caption" className={classes.completed}>
                           Step {activeStep + 1} already completed
                         </Typography>
@@ -177,4 +180,4 @@ class HorizontalLinearStepper extends Component {
     }
 
  
-export default withStyles(styles)(HorizontalLinearStepper);
+export default compose(connect(mapStateToProps),withStyles(styles))(HorizontalLinearStepper);

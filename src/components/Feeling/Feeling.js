@@ -1,17 +1,34 @@
 import React, { Component } from 'react';
-import {withStyles} from '@material-ui/core/styles'
-import FeelingPaper from './FeelingPaper';
+import Typography from '@material-ui/core/Typography'
+import FeelingButtons from './FeelingButtons';
+import { connect } from 'react-redux';
 
+
+const mapStateToProps = reduxStore => ({
+    reduxStore
+})
 
 class Feeling extends Component {
-    state = {}
+    componentDidMount() {
+        console.log(this.props.reduxStore);
+        
+    }
     render() { 
         return ( 
             <div>
-                <FeelingPaper/>
+
+            <br />
+            <Typography variant="headline" component="h3">
+                How are you feeling today?
+            </Typography>
+            <br />
+            <br />
+            <FeelingButtons />
+            <br />
+            <br />
             </div>
          )
     }
 }
  
-export default Feeling;
+export default connect(mapStateToProps)(Feeling);;
