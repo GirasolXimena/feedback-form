@@ -7,9 +7,38 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from 'react-redux';
 import { logger } from 'redux-logger';
 
-const commentReducer = (state = 0) => {
-    console.log(state);
-    console.log('hello');
+const commentReducer = (state = {}, action) => {
+
+    if (action.type === 'commentHandler') {
+            return {
+                ...state,
+                comment: action.payload,
+            }
+    }
+    if (action.type === 'commentButtonHandler') {
+            return {
+                ...state, 
+                flagged: action.payload
+            }
+    }
+    if (action.type === 'feelingHandler') {
+            return {
+                ...state,
+                feeling: action.payload
+            }
+    }
+    if (action.type === 'supportHandler') {
+        return {
+            ...state,
+            understanding: action.payload
+        }
+    }
+    if (action.type === 'understandingHandler') {
+        return {
+            ...state,
+            support: action.payload
+        }
+    }
     return state;
     
 }
@@ -18,10 +47,11 @@ const stepperReducer = (state = {
     activeStep: 0,
     completed: {},
     goToNextStep: false,
+    goToPrevStep: false
     }, action) => {
         let activeStep = state.activeStep
         let completed = state.completed
-        let goToNextStep = state.goToNextStep
+
         if (action.type === 'handleNext') {
 
               return {
@@ -36,6 +66,7 @@ const stepperReducer = (state = {
              return {
                 ...state,
               activeStep: activeStep - 1,
+              goToPrevStep: true
             };
         }
         

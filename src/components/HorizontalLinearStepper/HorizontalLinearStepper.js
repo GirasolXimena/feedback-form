@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { compose } from "redux";
 import { connect } from 'react-redux';
-import { Redirect } from "react-router-dom"
 
 const mapStateToProps = (reduxStore) => ({
   reduxStore
@@ -160,16 +159,19 @@ class HorizontalLinearStepper extends Component {
                     >
                       Next
                     </Button>
-                    {activeStep !== steps.length &&
-                      (this.props.reduxStore.stepperReducer.completed[this.props.reduxStore.stepperReducer.activeStep] ? (
-                        <Typography variant="caption" className={classes.completed}>
-                          Step {activeStep + 1} already completed
-                        </Typography>
-                      ) : (
-                        <Button variant="contained" color="primary" onClick={this.handleComplete}>
-                          {this.completedSteps() === this.totalSteps() - 1 ? 'Finish' : 'Complete Step'}
-                        </Button>
-                      ))}
+                    {/* {activeStep !== steps.length && */}
+                      {/* // (this.props.reduxStore.stepperReducer.completed[this.props.reduxStore.stepperReducer.activeStep] ? (
+                      //   <Typography variant="caption" className={classes.completed}>
+                      //     Step {activeStep + 1} already completed
+                      //   </Typography>
+                      // ) : 
+                      // // (
+                      //   // <Button variant="contained" color="primary" onClick={this.handleComplete}>
+                      //   //   {this.completedSteps() === this.totalSteps() - 1 ? 'Finish' : 'Complete Step'}
+                      //   // </Button>
+                      // // )
+                      // ) */}
+                      {/* } */}
                   </div>
                 </div>
               )}

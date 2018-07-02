@@ -26,17 +26,19 @@ const styles = ({
     reduxStore
   });
 
-class FeelingButtons extends Component {
+class SupportButtons extends Component {
   state = {
     selectedValue: '3'
   }
-  
-  handleChange = event => {
-    console.log(event.target.getAttribute('name'));
-    this.setState({ selectedValue: event.target.value });
-    let action = {type: 'feelingHandler', payload: event.target.value};
-    this.props.dispatch(action);
-};
+
+    handleChange = event => {
+        console.log(event.target.getAttribute('name'));
+        this.setState({ selectedValue: event.target.value });
+        let action = {type: 'supportHandler', payload: event.target.value};
+        this.props.dispatch(action);
+    };
+
+
     
       render() {
     
@@ -112,4 +114,4 @@ class FeelingButtons extends Component {
       }
     }
  
-export default compose(connect(mapStateToProps),withStyles(styles))(FeelingButtons);
+export default compose(connect(mapStateToProps),withStyles(styles))(SupportButtons);

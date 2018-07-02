@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {withStyles} from '@material-ui/core/styles'
 import Radio from '@material-ui/core/Radio'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import { compose } from "redux";
+import { connect } from 'react-redux';
 
 const styles = ({
     root: {
@@ -20,13 +22,21 @@ const styles = ({
     },
   });
 
-class UnderstandingButtons extends Component {
+  const mapStateToProps = (reduxStore) => ({
+    reduxStore
+  });
+  class UnderstandingButtons extends Component {
     state = {
-        selectedValue: '3',
-      };
-      handleChange = event => {
-        this.setState({ selectedValue: event.target.value });
-      };
+      selectedValue: '3'
+    }
+
+    handleChange = event => {
+      console.log(event.target.getAttribute('name'));
+      this.setState({ selectedValue: event.target.value });
+      let action = {type: 'understandingHandler', payload: event.target.value};
+      this.props.dispatch(action);
+  };
+
     
       render() {
     
@@ -102,4 +112,4 @@ class UnderstandingButtons extends Component {
       }
     }
  
-export default withStyles(styles)(UnderstandingButtons);
+export default compose(connect(mapStateToProps),withStyles(styles))(UnderstandingButtons);
